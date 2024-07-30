@@ -1,0 +1,108 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let b of bookList">
+            <td>{{ b.title }}</td>
+            <td>{{ b.author }}</td>
+            <td>{{ b.price }}</td>
+            <td>
+                <button class="btn btn-primary"
+                style="margin: 3px;"
+                data-bs-toggle="offcanvas"	
+                data-bs-target="#bookUpdateForm"	
+                aria-controls="bookUpdateForm"
+                (click)="openUpdateBookForm(b)">
+                    Update
+                </button>
+
+                <button class="btn btn-danger"
+                style="margin: 3px;"
+                (click)="deleteBook(b)">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- UPDATE FORM -->
+      
+<div class="offcanvas offcanvas-start" tabindex="-1" id="bookUpdateForm" aria-labelledby="updateBookFormTitle">
+
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="updateBookFormTitle">Update Book</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    
+    <div class="offcanvas-body">
+        <form [formGroup]="updateBookForm">
+
+            <div class="mb-3">
+                <label for="title-input" class="form-label">Title</label>
+
+                <input type="text" 
+                    class="form-control" 
+                    id="title-input"
+                    formControlName="title"
+                    >
+                <div class="error-msg"
+                     *ngIf="validField('title')"
+                     >
+                    Title must be provided
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="author-input" class="form-label">Author</label>
+
+                <input type="text" 
+                    class="form-control" 
+                    id="author-input"
+                    formControlName="author"
+                    >
+
+                <div class="error-msg"
+                     *ngIf="validField('author')">
+                    Author must be provided
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="price-input" class="form-label">Price</label>
+
+                <input type="number" 
+                    class="form-control" 
+                    id="price-input"
+                    formControlName="price"
+                    step="0.01"
+                    >
+
+                <div class="error-msg"
+                     *ngIf="validField('price')">
+                    <span *ngIf="updateBookForm.hasError('required', 'price')">
+                        Price must be provided
+                    </span>
+                    <span *ngIf="!updateBookForm.hasError('min') && !updateBookForm.hasError('required', 'price')">
+                        Price cannot be a negative number
+                    </span>
+                </div>
+            </div>
+
+            <input type="submit" 
+                class="btn btn-primary" 
+                value="Update"
+                data-bs-dismiss="offcanvas"
+                [disabled]="updateBookForm.invalid"
+                (click)="updateBook()"
+                >
+        </form>
+    </div>
+
+</div>

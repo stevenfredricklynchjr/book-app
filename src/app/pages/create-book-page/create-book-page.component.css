@@ -1,0 +1,15 @@
+.form-styling {
+    padding: 20px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.new-book-card {
+    width: 18rem;
+    margin: 0 auto;
+}
+
+.error-msg {
+    color: red;
+    font-size: smaller;
+}

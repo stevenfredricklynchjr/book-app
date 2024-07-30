@@ -1,0 +1,91 @@
+<form class="boder rounded form-styling"
+    [formGroup]="newBookForm"
+    (submit)="onSubmit()"
+    *ngIf="!submitted"
+    >
+  <h2 class="text-center">New Book Form</h2>
+
+  <div class="mb-3">
+        <label for="title-input"
+        class="form-label">Title</label>
+
+        <input type="text"
+               class="form-control"
+               id="title-input"
+               formControlName="title"
+               >
+
+        <div class="error-msg"
+             *ngIf="validField('title')">
+            Title must be provided
+        </div>
+  </div>
+
+  <div class="mb-3">
+       <label for="author-input"
+       class="form-label">Author</label>
+
+       <input type="text"
+              class="form-control"
+              id="author-input"
+              formControlName="author"
+              >
+
+        <div class="error-msg"
+             *ngIf="validField('author')"
+             >
+            Author must be provided
+        </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="price-input"
+    class="form-label">Price</label>
+
+    <input type="number"
+           class="form-control"
+           id="price-input"
+           formControlName="price"
+           step="0.01"
+           >
+
+     <div class="error-msg"
+          *ngIf="validField('price')"
+          >
+         <span *ngIf="newBookForm.hasError('required', 'price')">
+            Price must be provided
+         </span>
+         <span *ngIf="!newBookForm.hasError
+         ('min') && !newBookForm.hasError
+         ('required', 'price')">
+            Price cannot be a negative number
+         </span>
+     </div>
+ </div>
+
+ <input type="submit"
+        class="btn btn-primary"
+        value="Create Book"
+        [disabled]="newBookForm.invalid"
+        >
+</form>
+
+<div class="card text-center mb-3 new-book-card"
+     *ngIf="submitted"
+     >
+    <div class="card-header">New Book</div>    
+
+    <div class="card-body">
+        <h5 class="card-title">{{ getField('title')?.value }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{ getField('author')?.value }}</h6>
+
+        <p class="card-text">Price; {{ getField('price')?.value | currency }}</p>
+        <p class="card-text">ID: {{ createdBook.id }}</p>
+
+        <button class="btn btn-primary"
+                (click)="createAnotherBook()"
+                >
+            Create Another Book
+        </button>
+    </div>
+</div>
